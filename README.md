@@ -1,7 +1,4 @@
-
-<center>
-# Geospatial Machine Learning: Predicting fire risk in San Francisco
-</center>
+<h1 align="center"> Geospatial Machine Learning: Predicting fire risk in San Francisco </h1>
 
 <p align="center">
  Ken Steif, Ph.D<br><br><a href="https://twitter.com/KenSteif" align="center">@KenSteif</a><br>http://UrbanSpatialAnalysis.com/<br><br><br><img src="https://github.com/urbanSpatial/PredictingFireRisk/blob/main/predictinig%20fires%20urban%20spatial%20logo.png?raw=true" width=30% height=30% align="center"></img>
