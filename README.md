@@ -1,33 +1,15 @@
 
-<br>
 
-<center>
-<p style="line-height:1">
- <font size="30"> Geospatial Machine Learning: Predicting fire risk in San Francisco</font>
+# Geospatial Machine Learning: Predicting fire risk in San Francisco
+
+
+<p align="center">
+ Ken Steif, Ph.D<br><br><a href="https://twitter.com/KenSteif" align="center">@KenSteif</a><br>http://UrbanSpatialAnalysis.com/<br><br><br><img src="https://github.com/urbanSpatial/PredictingFireRisk/blob/main/predictinig%20fires%20urban%20spatial%20logo.png?raw=true" width=30% height=30% align="center"></img>
 </p>
-</center>
-
+<br>
 <br>
 
-<center><font size="5"> Ken Steif, Ph.D</font></center>
-
-<center>
-
-<a href="https://twitter.com/KenSteif">@KenSteif</a>
-
-http://UrbanSpatialAnalysis.com/
-
-</center>
-
-<center>
- <img src="https://github.com/urbanSpatial/PredictingFireRisk/blob/main/predictinig%20fires%20urban%20spatial%20logo.png?raw=true" width=30% height=30%></img>
-</center>
-
-
-
-<br>
-
-# 1. Introduction
+## 1. Introduction
 
 This markdown is one component of a workshop created for the University Consortium for GIS, 2021 Symposium. We will learn how to develop a geospatial risk prediction model - a type of machine learning model, specifically to predict fire risk in San Francisco, California.
 
@@ -44,7 +26,7 @@ Please check out the accompanying video for a lot more context on fire predictio
 This tutorial assumes the reader is familiar with spatial analysis and data wrangling in R - namely the `sf` and `tidyverse` packages. It is also assumed the reader has some familiarity with machine learning.
 
 
-# 2. Data wrangling
+## 2. Data wrangling
 
 In this section, we download spatial datasets from the San Francisco open data [website](https://datasf.org/) on building fires, neighborhoods, land use, vacancy, graffiti and more. We then learn how to measure geographic exposure by compiling these data into the `fishnet`, a lattice grid of cells that is the unit of analysis for the algorithm.
 
@@ -66,7 +48,7 @@ library(gridExtra)
 source("https://raw.githubusercontent.com/urbanSpatial/Public-Policy-Analytics-Landing/master/functions.r")
 ```
 
-## Download & wrangle fire data
+### Download & wrangle fire data
 
 We begin by downloading basemap layers and creating the `fishnet` using 500ft by 500ft grid cells. Note that all data is projected as a State Plane (feet). `main_streets` are filtered out for our basemap.
 
@@ -185,11 +167,11 @@ ggplot() +
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/join fires to fn-1.png" style="display: block; margin: auto;" />
 
-## Download & wrangle risk factors
+### Download & wrangle risk factors
 
 In this section, we download the independent variables. These are the predictive 'features' that measure geographic exposure to fires. Take note of the different strategies used to download the data. Some use `st_read` from the `sf` package, while others use `read.socrata`.
 
-## Wrangle Land Use parcels
+### Wrangle Land Use parcels
 
 `landUse` parcels are downloaded first. Year built (`yrbuilt`) and building square footage (`bldgsqft`) is calculated, and the layer is then projected.
 
@@ -319,7 +301,7 @@ ggplot() +
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/viz yrbuilt-1.png" style="display: block; margin: auto;" />
 
-## Wrangle graffiti data
+### Wrangle graffiti data
 
 Graffiti is one measure of blight, and San Francisco collects geocoded grafitti reports in their 311 data. Here we grab 5000 random graffiti reports using the `limit` function in `read.socrata`.
 
@@ -364,7 +346,7 @@ ggplot() +
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/nn dist graf-1.png" style="display: block; margin: auto;" />
 
-## Create the `final_net`
+### Create the `final_net`
 
 Finally, we join the fires and risk factors into one `final_net`. By filtering `yrbuilt` to include grid cells with parcels developed after 1900 we omit areas without any building-oriented land uses (eg. Golden Gate Park).
 
@@ -399,7 +381,7 @@ ggplot() +
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/join hoods-1.png" style="display: block; margin: auto;" />
 
-# 3. Exploring the spatial process of fires
+## 3. Exploring the spatial process of fires
 
 The goal of this section is to engineer features for our model that help predict the fire hotspots and the fire coldspots. It is notoriously difficult for linear (regression) models to predict these areas, which are effectively outliers. It is important that we do not say, under-predict the hotspots - otherwise, we under-predict risk.
 
@@ -478,7 +460,7 @@ ggplot() +
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/map sig-1.png" style="display: block; margin: auto;" />
 
-# 4. Modeling & Validation
+## 4. Modeling & Validation
 
 In this section we introduce the concept of spatial cross-validation - a special flavor of cross-validation. The risk prediction model is then compared to the Kernel Density to test for its planning utility.
 
@@ -526,7 +508,7 @@ summary(glm(countFires ~ ., family = "poisson",
 ## Number of Fisher Scoring iterations: 6
 ```
 
-## Spatial cross-validation
+### Spatial cross-validation
 
 We are estimating a regression model predicting the latent risk of fires. In the video accompanying this workshop, I suggest that one of our goals, and a big theme of the book, is that our model be generalizable. This means that it performs with equity across all neighborhoods regardless of factors like race, class or even the density of building fires.
 
@@ -598,7 +580,7 @@ reg.ss.spatialCV <- crossValidate.fire(
     dplyr::select(cvID = nhood, countFires, Prediction, geometry)
 ```
 
-## Analyze model errors
+### Analyze model errors
 
 Let us examine model accuracy by calculating model errors, subtracting grid cell `Prediction`s from the observed `countFires`. `reg.summary` includes `countFires`, predictions, errors and a `Regression` label for both regressions estimated above.  
 
@@ -655,7 +637,7 @@ error_by_reg_and_fold %>%
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/error by reg and nhood map-1.png" style="display: block; margin: auto;" />
 
-## Model predictions
+### Model predictions
 
 Although this is a very simple model, assuming it is satisfactory, we can move on to the model predictions. The visualization below maps risk predictions, the Kernel Density and the observed `countFires`.
 
@@ -689,7 +671,7 @@ grid.arrange(ncol=1,
 
 <img src="2020_5_20-sf-fire-prediction_files/figure-html/map outcomes-1.png" style="display: block; margin: auto;" />
 
-# 5. Risk Prediction or Kernel Density?
+## 5. Risk Prediction or Kernel Density?
 
 As we have discussed, the most 'accurate' model may not the best. In fact, the most genearlizable model - which is less bias, might be important, but also may not be the best contender. What we are really after is the most 'useful' model - and useful can only be judged in the context of the planning use case. If we were on the ground in San Francisco, we might study how the Fire Department currently makes decisions around fire inspection and comparable use cases.
 
