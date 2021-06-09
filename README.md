@@ -20,7 +20,7 @@ http://UrbanSpatialAnalysis.com/
 </center> 
 
 <center>
-![](/predictinig fires urban spatial logo.png){width=30% height=30%}
+ <img src="https://github.com/urbanSpatial/PredictingFireRisk/blob/main/predictinig%20fires%20urban%20spatial%20logo.png?raw=true" width=30% height=30%></img>
 </center>
 
 <br>
