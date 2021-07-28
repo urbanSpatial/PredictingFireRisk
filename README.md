@@ -18,7 +18,7 @@ These models provide intelligence beyond points on a map - that simply tell us t
 
 Fire is a relatively rare event, and the 'latent risk' for fire is much greater than the number of fires actually observed. Today, we will estimate this spatial latent risk to help the San Francisco Fire Department do operational planning, like fire inspection and smoke detector outreach.
 
-Please check out the accompanying video for a lot more context on fire prediction and algorithmic bias. Minimal context is provided here.
+Please check out the [accompanying video](https://youtu.be/Fe-5c76ApeQ?t=1) for a lot more context on fire prediction and algorithmic bias. Minimal context is provided here.
 
 This tutorial assumes the reader is familiar with spatial analysis and data wrangling in R - namely the `sf` and `tidyverse` packages. It is also assumed the reader has some familiarity with machine learning.
 
